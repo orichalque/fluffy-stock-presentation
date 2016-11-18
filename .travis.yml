@@ -1,0 +1,17 @@
+language: java
+
+sudo: false
+
+jdk:
+  - oraclejdk8
+
+notifications:
+  email: false
+
+install:
+  - cd $TRAVIS_BUILD_DIR/ && mvn install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
+
+deploy:
+  provider: heroku
+  api_key: $HEROKU_TOKEN
+
