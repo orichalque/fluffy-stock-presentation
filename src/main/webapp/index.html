@@ -1,0 +1,255 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <link rel="icon" type="image/ico" href="resources/favicon.ico">
+    <!-- Bootstrap core CSS -->
+    <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap theme -->
+    <link href="bootstrap/css/bootstrap-theme.min.css" rel="stylesheet">
+    <!-- Custom styles for this template -->
+    <link href="bootstrap/css/bootstrap-theme.css" rel="stylesheet">
+    <script src="js/lib/angular.min.js" type="text/javascript"></script>
+    <script src="resources/config.js" type="text/javascript"></script>
+    <script src="js/lib/angular-cookies.min.js" type="text/javascript"></script>
+    <script src="js/lib/smart-table.min.js" type="text/javascript"></script>
+    <script src="js/productManager.js" type="text/javascript"></script>
+
+
+    <title>Espace Administration</title>
+</head>
+<body ng-app="adminApp">
+
+
+<div class="container-fluid" ng-controller="productCtrl as tab">
+
+    <div class="col-sm-3 col-md-2 sidebar">
+        <ul class="nav nav-pills nav-stacked">
+            <li role="presentation" ng-class="{ active: tab.isSet(1) }" class="active"><a href ng-click="tab.setTab(1)">
+                Products</a></li>
+
+            <li role="presentation" ng-class="{ active: tab.isSet(4) }" class=""><a href ng-click="tab.setTab(2)">
+                Administrateurs</a></li>
+
+
+        </ul>
+    </div>
+    <div class="col-sm-9 col-sm--3 col-md-10 main">
+        <div ng-show="tab.isSet(1)">
+            <div class="col-sm-9 col-sm--3 col-md-10 main">
+                <h4>Ajoutez votre Produit</h4>
+
+                <br>
+
+                <form class="form-horizontal ng-valid ng-dirty" role="form" ng-submit="addProduct()">
+                    <div class="form-group">
+                        <label class="col-md-3 control-label">Nom du produit</label>
+
+                        <div class="col-md-4">
+                            <input type="text" placeholder="Nom du product" class="form-control ng-valid ng-dirty"
+                                   name="nom_productCH"
+                                   ng-model="jsonProduct.nom_product" ng-click="setFalse()" required>
+                            {{nom_productCh}}
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-3 control-label">Type</label>
+
+                        <div class="col-md-4">
+                            <select name="SelectType" id="SelectType"
+                                    ng-options="type as type for type in types"
+                                    ng-model="jsonProduct.productType"
+                                    ng-click="setFalse()">
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-3 control-label">Description correspondante</label>
+
+                        <div class="col-md-4">
+                            <input type="text" placeholder="Description" class="form-control ng-valid ng-dirty"
+                                   name="nom_campagneCH"
+                                   ng-model="jsonProduct.description" ng-click="setFalse()" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-3 control-label">Prix du product</label>
+
+                        <div class="col-md-4">
+                            <input type="text" placeholder="0" class="form-control ng-valid ng-dirty"
+                                   name="descr_productCH"
+                                   ng-model="jsonProduct.price" ng-click="setFalse()">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-3 control-label">Quantité de product</label>
+
+                        <div class="col-md-4">
+                            <input type="text" placeholder="0" class="form-control ng-valid ng-dirty"
+                                   name="descr_productCH"
+                                   ng-model="jsonProduct.quantity" ng-click="setFalse()">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-3 control-label">
+                            <h4>
+                                <div class="label label-success " ng-show="entityAdded">{{message}}</div>
+                            </h4>
+                            <h4>
+                                <div class="label label-danger " ng-show="error">{{message}}</div>
+                            </h4>
+                        </label>
+
+                        <div class="col-md-4 control-label">
+                            <input type="submit" value="Soumettre" class="btn btn-primary" align="right">
+                        </div>
+
+                    </div>
+                </form>
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th>Products existants</th>
+                            <th>Domaine</th>
+                            <th>Campagne</th>
+                            <th>Description</th>
+                        </tr>
+                        </thead>
+                        <tbody ng-repeat="product in products">
+                        <tr>
+                            <td>
+                                <span ng-show="modif(product.id_product)">
+                                <input type="text" class="form-control ng-valid ng-dirty" ng-model="product.nom_product"
+                                       ng-enter="change_product(product)">
+                                     </span>
+                                <span ng-show="!modif(product.id_product)">
+                                    {{product.nom_product}}
+                                </span>
+                            </td>
+
+                            <td>{{product.nom_domaine}}</td>
+                            <td>
+                                <span ng-show="modif(product.id_product)">
+                                <input type="text" class="form-control ng-valid ng-dirty" ng-model="product.nom_campagne"
+                                       ng-enter="change_product(product)">
+                                     </span>
+                                <span ng-show="!modif(product.id_product)">
+                                    {{product.nom_campagne}}
+                                </span>
+                            </td>
+                            <td>
+                                <span ng-show="modif(product.id_product)">
+                                <input type="text" class="form-control ng-valid ng-dirty"
+                                       ng-model="product.description_product" ng-enter="change_product(product)">
+                                     </span>
+                                <span ng-show="!modif(product.id_product)">
+                                    {{product.description_product}}
+                                </span>
+                            </td>
+                            <td align="right">
+                                <div class="btn-group" role="group">
+                                    <button ng-show="!modif(product.id_product)" class="btn btn-primary btn-xs"
+                                            ng-click="modifier(product.id_product)">Modifier
+                                    </button>
+                                    <button ng-show="modif(product.id_product)" class="btn btn-primary btn-xs"
+                                            ng-click="change_product(product)">Confirmer
+                                    </button>
+
+                                    <button type="button" class="btn btn-danger btn-xs" style="font-weight:bold;"
+                                            ng-click="removeProduct(product)">x
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div ng-show="tab.isSet(2)">
+            <h4>Ajoutez votre Utilisateur</h4>
+            <br/>
+
+            <form class="form-horizontal ng-valid ng-dirty" role="form" ng-submit="register()">
+                <div class="form-group">
+                    <label class="col-md-3 control-label">Nom Utilisateur</label>
+
+                    <div class="col-md-4">
+                        <input type="text" placeholder="Nom d'utilisateur" class="form-control" id="username"
+                               name="username"
+                               ng-model="user.username" ng-click="setFalse()" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-3 control-label">Mot de Passe</label>
+
+                    <div class="col-md-4">
+                        <input type="password" placeholder="Mot de passe" class="form-control ng-valid ng-dirty"
+                               name="password"
+                               ng-model="user.password" ng-click="setFalse()">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-md-3 control-label">Confirmez le mot de passe</label>
+
+                    <div class="col-md-4">
+                        <input type="password" placeholder="Repeter le mot de passe"
+                               class="form-control ng-valid ng-dirty" name="confirmation"
+                               ng-model="user.confirmation" ng-click="setFalse()">
+                    </div>
+
+                </div>
+                <div class="form-group">
+                    <label class="col-md-3 control-label">
+                        <h4>
+                            <div class="label label-success " ng-show="entityAdded">{{message}}</div>
+                        </h4>
+                        <h4>
+                            <div class="label label-danger " ng-show="error">{{message}}</div>
+                        </h4>
+                    </label>
+
+                    <div class="col-md-4 control-label">
+                        <h4><span class="label label-danger" ng-show="!mdpEquals()"> Les mots de passe sont différents</span>
+                        </h4>
+                        <input ng-show="mdpEquals()" type="submit" value="Soumettre" class="btn btn-primary"
+                               align="right">
+                    </div>
+
+
+                </div>
+            </form>
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th>Liste des utilisateurs</th>
+                    </tr>
+                    </thead>
+                    <tbody ng-repeat="user in users">
+                    <tr>
+                        <td>{{user.nom_user}}</td>
+                        <td align="right">
+                            <button type="button" class="btn btn-danger btn-xs" style="font-weight:bold;"
+                                    ng-click="removeAdmin(user)">x
+                            </button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+</body>
+</html>

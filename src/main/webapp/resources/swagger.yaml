@@ -1,0 +1,115 @@
+# this is an example of the Uber API
+# as a demonstration of an API spec in YAML
+swagger: '2.0'
+info:
+  title: Fluffy-Stock API
+  description: Service de fourniture de produits
+  version: "1.0.0"
+# the domain of the service
+host: fluffy-stock.herokuapp.com
+# array of all schemes that your API supports
+schemes:
+  - http
+# will be prefixed to all paths
+basePath: /api
+produces:
+  - application/json
+paths:
+  /products:
+    get:
+      summary: All the product of the database
+      description: |
+        The fluffy-stock endpoint returns the whole database as a Json array. 
+      tags:
+        - Products
+      responses:
+        200:
+          description: An array of products
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Product'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+  /product/{id}:
+    get:
+      summary: A specific product
+      description: |
+        The endpoint returns a single product identified by its id. 
+      parameters:
+        - name: id
+          in: path
+          description: The unique Id of the product
+          required: true
+          type: string
+      tags:
+        - Product
+      responses:
+        200:
+          description: A single product
+          schema:
+            $ref: '#/definitions/Product'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+  /product/{id}/order/{quantity}:
+    post:
+      summary: A specific product
+      description: |
+        The endpoint returns a single product identified by its id. 
+      parameters:
+        - name: id
+          in: path
+          description: The unique Id of the product
+          required: true
+          type: string
+        - name: quantity
+          in: path
+          description: The amount of the specific product to order
+          required: true
+          type: integer
+      tags:
+        - Order
+      responses:
+        200:
+          description: A single product
+          schema:
+            $ref: '#/definitions/Product'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+definitions:
+  Product:
+    type: object
+    properties:
+      id:
+        type: string
+        description: Unique identifier with the UUID format.
+      description:
+        type: string
+        description: Description of product.
+      name:
+        type: string
+        description: Display name of product.
+      quantity:
+        type: integer
+        format: int32
+        description: Capacity of product. For example, 4 people.
+      price:
+        type: number
+        format: double
+        description: The unit price of the product
+  Error:
+    type: object
+    properties:
+      code:
+        type: integer
+        format: int32
+      message:
+        type: string
+      fields:
+        type: string
