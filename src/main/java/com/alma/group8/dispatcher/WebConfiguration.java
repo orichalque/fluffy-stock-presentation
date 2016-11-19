@@ -17,6 +17,11 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 public class WebConfiguration extends WebMvcConfigurerAdapter {
 
     @Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        registry.addResourceHandler("/**").addResourceLocations("/");
+    }
+
+    @Override
     public void addViewControllers(ViewControllerRegistry registry) {
         //Set the welcome page ton index.html
         registry.addViewController("/").setViewName("forward:/index.html");
