@@ -1797,7 +1797,7 @@ try {
 
                                         <article id="api-Products-productsGet-0" data-group="User" data-name="productsGet" data-version="0">
                                             <div class="pull-left">
-                                                <h1>Get all the products of the database</h1>
+                                                <h1>productsGet</h1>
                                                 <p>All the product of the database</p>
                                             </div>
                                             <div class="pull-right">
@@ -1806,7 +1806,7 @@ try {
                                             <div class="clearfix"></div>
 
                                             <p></p>
-                                            <p class="marked">The fluffy-stock endpoint returns the whole database as a Json array. 
+                                            <p class="marked">The fluffy-stock endpoint returns the whole database as a Json array. The result can be paginated with the appropriate parameters
 </p>
                                             <p></p>
                                             <br />
@@ -1850,7 +1850,7 @@ try {
                                             <div class="tab-content">
                                                 <div class="tab-pane active" id="examples-Products-productsGet-0-curl">
                                                     <pre class="prettyprint"><code class="language-bsh">
-curl -X <span style="text-transform: uppercase;">get</span> "http://fluffy-stock.herokuapp.com/api/products"
+curl -X <span style="text-transform: uppercase;">get</span> "http://fluffy-stock.herokuapp.com/api/products?page=&size="
 
 
 </code></pre>
@@ -1871,8 +1871,10 @@ public class ProductsApiExample {
     public static void main(String[] args) {
         
         ProductsApi apiInstance = new ProductsApi();
+        BigDecimal page = 3.4; // BigDecimal | the page number. Starts at 1
+        BigDecimal size = 3.4; // BigDecimal | the number of element by page
         try {
-            array[Product] result = apiInstance.productsGet();
+            array[Product] result = apiInstance.productsGet(page, size);
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling ProductsApi#productsGet");
@@ -1893,8 +1895,10 @@ public class ProductsApiExample {
 
     public static void main(String[] args) {
         ProductsApi apiInstance = new ProductsApi();
+        BigDecimal page = 3.4; // BigDecimal | the page number. Starts at 1
+        BigDecimal size = 3.4; // BigDecimal | the number of element by page
         try {
-            array[Product] result = apiInstance.productsGet();
+            array[Product] result = apiInstance.productsGet(page, size);
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling ProductsApi#productsGet");
@@ -1915,12 +1919,15 @@ public class ProductsApiExample {
                                                 <div class="tab-pane" id="examples-Products-productsGet-0-objc">
                                                     <pre class="prettyprint"><code class="language-cpp">
 
+BigDecimal *page = 3.4; // the page number. Starts at 1 (optional)
+BigDecimal *size = 3.4; // the number of element by page (optional)
 
 ProductsApi *apiInstance = [[ProductsApi alloc] init];
 
 // All the product of the database
-[apiInstance productsGetWithCompletionHandler: 
-              ^(array[Product] output, NSError* error) {
+[apiInstance productsGetWith:page
+    size:size
+              completionHandler: ^(array[Product] output, NSError* error) {
                             if (output) {
                                 NSLog(@"%@", output);
                             }
@@ -1937,6 +1944,11 @@ var  = require('');
 
 var api = new .ProductsApi()
 
+var opts = { 
+  'page': 3.4, // {BigDecimal} the page number. Starts at 1
+  'size': 3.4 // {BigDecimal} the number of element by page
+};
+
 var callback = function(error, data, response) {
   if (error) {
     console.error(error);
@@ -1944,7 +1956,7 @@ var callback = function(error, data, response) {
     console.log('API called successfully. Returned data: ' + data);
   }
 };
-api.productsGet(callback);
+api.productsGet(opts, callback);
 
                                                     </code></pre>
                                                 </div>
@@ -1969,11 +1981,13 @@ namespace Example
         {
             
             var apiInstance = new ProductsApi();
+            var page = 3.4;  // BigDecimal | the page number. Starts at 1 (optional) 
+            var size = 3.4;  // BigDecimal | the number of element by page (optional) 
 
             try
             {
                 // All the product of the database
-                array[Product] result = apiInstance.productsGet();
+                array[Product] result = apiInstance.productsGet(page, size);
                 Debug.WriteLine(result);
             }
             catch (Exception e)
@@ -1994,9 +2008,11 @@ namespace Example
 require_once(__DIR__ . '/vendor/autoload.php');
 
 $api_instance = new io.swagger.client\Api\ProductsApi();
+$page = 3.4; // BigDecimal | the page number. Starts at 1
+$size = 3.4; // BigDecimal | the number of element by page
 
 try {
-    $result = $api_instance->productsGet();
+    $result = $api_instance->productsGet($page, $size);
     print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling ProductsApi->productsGet: ', $e->getMessage(), PHP_EOL;
@@ -2020,6 +2036,80 @@ try {
 
 
 
+                                                <div class="methodsubtabletitle">Query parameters</div>
+                                                <table id="methodsubtable">
+                                                    <tr>
+                                                        <th width="150px">Name</th>
+                                                        <th>Description</th>
+                                                    </tr>
+                                                    <!---->
+                                                        <tr><td style="width:150px;">page</td>
+<td>
+
+
+<script>
+												$(document).ready(function() {
+													var schemaWrapper = {
+  "name" : "page",
+  "in" : "query",
+  "description" : "the page number. Starts at 1",
+  "required" : false,
+  "type" : "number"
+};
+													var schema = schemaWrapper;
+
+
+
+
+													var view = new JSONSchemaView(schema,0);
+													var result = $('#d2e199_productsGet_page');
+													result.empty();
+													result.append(view.render());
+
+
+
+
+
+												});
+												</script>
+												<div id="d2e199_productsGet_page"></div>
+</td>
+</tr>
+
+                                                        <tr><td style="width:150px;">size</td>
+<td>
+
+
+<script>
+												$(document).ready(function() {
+													var schemaWrapper = {
+  "name" : "size",
+  "in" : "query",
+  "description" : "the number of element by page",
+  "required" : false,
+  "type" : "number"
+};
+													var schema = schemaWrapper;
+
+
+
+
+													var view = new JSONSchemaView(schema,0);
+													var result = $('#d2e199_productsGet_size');
+													result.empty();
+													result.append(view.render());
+
+
+
+
+
+												});
+												</script>
+												<div id="d2e199_productsGet_size"></div>
+</td>
+</tr>
+
+                                                </table>
 
                                             <h2>Responses</h2>
 
@@ -2209,15 +2299,22 @@ try {
 
 
 
+
             <div id="footer">
                 <div id="api-_footer">
+                    <p>Suggestions, contact, support and error reporting;
+                            <div class="app-desc">WebApp: <a href="https://github.com/orichalque/fluffy-stock-presentation">GitHub</a></div>
+                            <div class="app-desc">Rest-Api: <a href="https://github.com/orichalque/fluffy-stock">GitHub</a></div>
+                            <div class="app-desc">SonarQube report: <a href="https://sonarqube.com/dashboard?id=com.alma.groupe8%3Afluffy-stock">SonarQube</a></div>
+                            <div class="app-desc">Intégration Continue: <a href="https://travis-ci.org/orichalque/fluffy-stock">Travis Ci</a></div>
+                    </p>
                         <div class="license-info">All rights reserved</div>
                         <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
                 </div>
             </div>
             <div id="generator">
                 <div class="content">
-                    Generated 2016-11-18T12:42:33.900Z
+                    Generated 2016-11-21T16:06:52.156Z
                 </div>
             </div>
         </div>

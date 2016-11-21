@@ -19,9 +19,20 @@ paths:
     get:
       summary: All the product of the database
       description: |
-        The fluffy-stock endpoint returns the whole database as a Json array. 
+        The fluffy-stock endpoint returns the whole database as a Json array. The result can be paginated with the appropriate parameters
       tags:
         - Products
+      parameters:
+        - name: page
+          in: query
+          description: the page number. Starts at 1
+          required: false
+          type: number
+        - name: size
+          in: query
+          description: the number of element by page
+          required: false
+          type: number
       responses:
         200:
           description: An array of products
