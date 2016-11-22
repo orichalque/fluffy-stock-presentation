@@ -1,4 +1,4 @@
 const config ={
-    url : "https://fluffy-stock.herokuapp.com/",
-    urlAdmin : "https://fluffy-stock.herokuapp.com/admin"
+    url : "http://fluffy-stock.herokuapp.com/",
+    urlAdmin : "http://fluffy-stock.herokuapp.com/admin"
 };

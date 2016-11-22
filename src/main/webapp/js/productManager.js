@@ -92,6 +92,13 @@
         };
         getProducts();
 
+        function getProd2(){
+            $http.get(config.url + 'products').then(function(data){
+                $scope.products = data;
+            })
+        }
+        getProd2();
+
         /***
          * Ajout du product rentré par l'utilisateur dans les champs
          * Appels un service REST permettant l'ajout
