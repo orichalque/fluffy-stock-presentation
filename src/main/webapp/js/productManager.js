@@ -123,7 +123,6 @@
             });
         };
         getProductsPagination();
-        var productsJS = $scope.products;
 
         /***
          * Ajout du product rentré par l'utilisateur dans les champs
@@ -142,7 +141,7 @@
                 quantity: 0
             };
             //appel REST pour ajouter le product
-            sendHttpRequest(config.url + 'products', $scope.jsonProduct, 'POST').then(function() {
+            sendHttpRequest(config.urlAdmin + 'product', $scope.jsonProduct, 'POST').then(function() {
                 $scope.message = "Product Ajouté avec succès";
                 $scope.entityAdded = true;
                 //actualisation des produits
@@ -187,7 +186,7 @@
          * @param product le product modifié
          */
         $scope.change_product=function(product){
-            sendHttpRequest(config.url + "products"+product.id, product,'POST').then(function () {
+            sendHttpRequest(config.urlAdmin + "products"+product.id, product,'POST').then(function () {
                 $scope.tomodif="";
             });
         };

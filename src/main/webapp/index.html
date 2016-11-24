@@ -144,49 +144,49 @@
                         <tbody ng-repeat="product in products">
                         <tr>
                             <td>
-                                <span ng-show="modif(product._id)">
-                                <input type="text" class="form-control ng-valid ng-dirty" ng-model="product.nom_product"
+                                <span ng-show="modif(product.name)">
+                                <input type="text" class="form-control ng-valid ng-dirty" ng-model="product.name"
                                        ng-enter="change_product(product)">
                                      </span>
-                                <span ng-show="!modif(product._id)">
+                                <span ng-show="!modif(product.name)">
                                     {{product.name}}
                                 </span>
                             </td>
 
                             <td>{{product.productType}}</td>
                             <td>
-                                <span ng-show="modif(product._id)">
-                                <input type="text" class="form-control ng-valid ng-dirty" ng-model="product.nom_campagne"
+                                <span ng-show="modif(product.name)">
+                                <input type="text" class="form-control ng-valid ng-dirty" ng-model="product.price"
                                        ng-enter="change_product(product)">
                                      </span>
-                                <span ng-show="!modif(product._id)">
+                                <span ng-show="!modif(product.name)">
                                     {{product.price}}
                                 </span>
                             </td>
                             <td>
-                                <span ng-show="modif(product._id)">
+                                <span ng-show="modif(product.name)">
                                 <input type="text" class="form-control ng-valid ng-dirty"
-                                       ng-model="product.description_product" ng-enter="change_product(product)">
+                                       ng-model="product.quantity" ng-enter="change_product(product)">
                                      </span>
-                                <span ng-show="!modif(product._id)">
+                                <span ng-show="!modif(product.name)">
                                     {{product.quantity}}
                                 </span>
                             </td>
                             <td>
-                                <span ng-show="modif(product._id)">
+                                <span ng-show="modif(product.name)">
                                 <input type="text" class="form-control ng-valid ng-dirty"
-                                       ng-model="product.description_product" ng-enter="change_product(product)">
+                                       ng-model="product.description" ng-enter="change_product(product)">
                                      </span>
-                                <span ng-show="!modif(product._id)">
+                                <span ng-show="!modif(product.name)">
                                     {{product.description}}
                                 </span>
                             </td>
                             <td align="right">
                                 <div class="btn-group" role="group">
-                                    <button ng-show="!modif(product._id)" class="btn btn-primary btn-xs"
-                                            ng-click="modifier(product._id)">Modifier
+                                    <button ng-show="!modif(product.name)" class="btn btn-primary btn-xs"
+                                            ng-click="modifier(product.name)">Modifier
                                     </button>
-                                    <button ng-show="modif(product._id)" class="btn btn-primary btn-xs"
+                                    <button ng-show="modif(product.name)" class="btn btn-primary btn-xs"
                                             ng-click="change_product(product)">Confirmer
                                     </button>
 
