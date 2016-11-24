@@ -116,10 +116,7 @@
 
         function getProductsPagination() {
             sendHttpRequest(config.url + 'products?page='+$scope.currentPage+"&size="+$scope.itemPerPage, {}, 'GET').then(function(data) {
-                $scope.products = [];
-                for (var i = 0; i < data.length; i++) {
-                    $scope.products[i]=JSON.parse(data[i])
-                }
+                $scope.products = data;
             });
         };
         getProductsPagination();
