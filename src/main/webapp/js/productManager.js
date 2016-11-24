@@ -138,7 +138,7 @@
                 quantity: 0
             };
             //appel REST pour ajouter le product
-            sendHttpRequest(config.urlAdmin + 'product', $scope.jsonProduct, 'POST').then(function() {
+            sendHttpRequest(config.urlAdmin + 'product', JSON.stringify($scope.jsonProduct), 'POST').then(function() {
                 $scope.message = "Product Ajouté avec succès";
                 $scope.entityAdded = true;
                 //actualisation des produits
