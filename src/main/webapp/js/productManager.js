@@ -13,15 +13,15 @@
      * $window: Redirections
      * $q promises
      */
-    var app = angular.module("adminApp", ['smart-table',"ngCookies"]);
-    app.controller("productCtrl", ['$scope', '$http', '$cookies', '$window','$q',  function ($scope, $http, $cookies, $window, $q) {
+    var app = angular.module("adminApp", []);
+    app.controller("productCtrl", ['$scope', '$http', '$window','$q',  function ($scope, $http, $window, $q) {
 
         function sendHttpRequest(uri, parameters, pMethod) {
             var defer = $q.defer();
             $http({
                 method: pMethod,
                 url: uri,
-                data: parameters
+                data: parameters,
             }).then(function (response) {//successCallback
                 defer.resolve(response.data);
             }, function (response) {//errorCallback
@@ -56,7 +56,7 @@
             "bazar"
         ];
 
-
+        $scope.numberByPage = [10,20,30,40];
         /*
          * ==============================================================
          */
@@ -80,6 +80,29 @@
          * ==============================================================
          */
 
+
+        /**
+         *gestion Pagination
+         */
+        $scope.totalItems = 200; // api -> count
+        $scope.currentPage = 1;
+        $scope.itemPerPage = 20;
+
+
+        $scope.next= function(){
+            $scope.currentPage ++;
+            getProductsPagination();
+        }
+        $scope.prev= function(){
+            $scope.currentPage --;
+            getProductsPagination();
+        }
+        $scope.pageChanged = function() {
+            getProductsPagination();
+        };
+
+        $scope.maxSize = 5;
+
         /*
          * Recuperation des produits par appel REST
          * Appels l'application SLD 360
@@ -90,14 +113,17 @@
                 $scope.products = data;
             });
         };
-        getProducts();
 
-        function getProd2(){
-            $http.get(config.url + 'products').then(function(data){
-                $scope.products = data;
-            })
-        }
-        getProd2();
+        function getProductsPagination() {
+            sendHttpRequest(config.url + 'products?page='+$scope.currentPage+"&size="+$scope.itemPerPage, {}, 'GET').then(function(data) {
+                $scope.products = [];
+                for (var i = 0; i < data.length; i++) {
+                    $scope.products[i]=JSON.parse(data[i])
+                }
+            });
+        };
+        getProductsPagination();
+        var productsJS = $scope.products;
 
         /***
          * Ajout du product rentré par l'utilisateur dans les champs
@@ -255,6 +281,8 @@
         /*
          * ==============================================================
          */
+
+
 
     }]);
 
