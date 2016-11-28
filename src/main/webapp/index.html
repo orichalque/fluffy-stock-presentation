@@ -46,6 +46,8 @@
                 <h4>Ajoutez votre Produit</h4>
 
                 <br>
+                <pre>{{jsonProduct}}</pre>
+                <br>
 
                 <form class="form-horizontal ng-valid ng-dirty" role="form" ng-submit="addProduct()">
                     <div class="form-group">
@@ -53,9 +55,7 @@
 
                         <div class="col-md-4">
                             <input type="text" placeholder="Nom du product" class="form-control ng-valid ng-dirty"
-                                   name="nom_productCH"
-                                   ng-model="jsonProduct.nom_product" ng-click="setFalse()" required>
-                            {{nom_productCh}}
+                                   ng-model="jsonProduct.name" ng-click="setFalse()" required>
                         </div>
                     </div>
                     <div class="form-group">
@@ -73,7 +73,6 @@
 
                         <div class="col-md-4">
                             <input type="text" placeholder="Description" class="form-control ng-valid ng-dirty"
-                                   name="nom_campagneCH"
                                    ng-model="jsonProduct.description" ng-click="setFalse()" required>
                         </div>
                     </div>
@@ -82,7 +81,6 @@
 
                         <div class="col-md-4">
                             <input type="text" placeholder="0" class="form-control ng-valid ng-dirty"
-                                   name="descr_productCH"
                                    ng-model="jsonProduct.price" ng-click="setFalse()">
                         </div>
                     </div>
@@ -91,7 +89,6 @@
 
                         <div class="col-md-4">
                             <input type="text" placeholder="0" class="form-control ng-valid ng-dirty"
-                                   name="descr_productCH"
                                    ng-model="jsonProduct.quantity" ng-click="setFalse()">
                         </div>
                     </div>
