@@ -7,6 +7,7 @@
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
     <meta name="description" content="">
     <meta name="author" content="">
+    <meta name="google-signin-client_id" content="875496507512-dsmsh27pou4qq4jrudcj0aadealjof0f.apps.googleusercontent.com">
 
     <link rel="icon" type="image/ico" href="resources/favicon.ico">
     <!-- Bootstrap core CSS -->
@@ -17,6 +18,7 @@
     <link href="bootstrap/css/bootstrap-theme.css" rel="stylesheet">
     <script src="js/lib/angular.min.js" type="text/javascript"></script>
     <script src="resources/config.js" type="text/javascript"></script>
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
     <script src="js/lib/angular-cookies.min.js" type="text/javascript"></script>
     <!--<script src="js/lib/smart-table.min.js" type="text/javascript"></script>-->
     <script src="js/productManager.js" type="text/javascript"></script>
@@ -37,6 +39,7 @@
             <li role="presentation" ng-class="{ active: tab.isSet(2) }" class=""><a href ng-click="tab.setTab(2)">
                 Administrateurs</a></li>
 
+            <div class="g-signin2" data-onsuccess="onSignIn"></div>
 
         </ul>
     </div>
