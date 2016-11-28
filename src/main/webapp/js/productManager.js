@@ -22,6 +22,8 @@
                 method: pMethod,
                 url: uri,
                 data: parameters,
+                crossDomain: true,
+                contentType: 'application/json'
             }).then(function (response) {//successCallback
                 defer.resolve(response.data);
             }, function (response) {//errorCallback
@@ -47,7 +49,7 @@
          */
         $scope.products = [{nom_product: "Loading..."}];
 
-        $scope.types= [
+        $scope.types=['MINERAL', 'DIVERS', 'BOIS', 'METAL',
             "alimentaire",
             "hygiene",
             "liquide",
@@ -109,10 +111,11 @@
          */
 
         function getProducts() {
-            sendHttpRequest(config.url + 'products', {}, 'GET').then(function(data) {
+            sendHttpRequest(config.urlAdmin + 'products', {}, 'GET').then(function(data) {
                 $scope.products = data;
             });
         };
+        getProducts();
 
         function getProductsPagination() {
             sendHttpRequest(config.url + 'products?page='+$scope.currentPage+"&size="+$scope.itemPerPage, {}, 'GET').then(function(data) {
@@ -121,26 +124,37 @@
         };
         getProductsPagination();
 
+        $scope.jsonProduct = {
+            name: "",
+            description: "",
+            productType: "",
+            price: 0,
+            quantity: 0
+        };
         /***
          * Ajout du product rentré par l'utilisateur dans les champs
          * Appels un service REST permettant l'ajout
          * Appel effectué sur l'application SLD360
          */
+
+        $scope.testadd = function(){
+            }
         $scope.addProduct = function () {
             $scope.error = false;
             $scope.message = '';
-            //creation du Json en fonction du formulaire html
-            $scope.jsonProduct = {
-                nom_product: "",
-                descriprion: "",
-                productType: "",
-                price: 0,
-                quantity: 0
-            };
+
+
             //appel REST pour ajouter le product
             sendHttpRequest(config.urlAdmin + 'product', JSON.stringify($scope.jsonProduct), 'POST').then(function() {
                 $scope.message = "Product Ajouté avec succès";
                 $scope.entityAdded = true;
+                $scope.jsonProduct = {
+                    name: "",
+                    description: "",
+                    productType: "",
+                    price: 0,
+                    quantity: 0
+                };
                 //actualisation des produits
                 sendHttpRequest(config.url + 'products', null, 'GET').then(function(data){
                     $scope.products=data;
@@ -148,6 +162,13 @@
             }, function (){//errorCallback
                 $scope.error = true;
                 $scope.message = "failure : n'existe-t-il pas déja dans la base ?";
+                $scope.jsonProduct = {
+                    name: "",
+                    description: "",
+                    productType: "",
+                    price: 0,
+                    quantity: 0
+                };
             });
 
         };
@@ -183,7 +204,7 @@
          * @param product le product modifié
          */
         $scope.change_product=function(product){
-            sendHttpRequest(config.urlAdmin + "products"+product.id, product,'POST').then(function () {
+            sendHttpRequest(config.urlAdmin + "product/"+product.id, product,'POST').then(function () {
                 $scope.tomodif="";
             });
         };
