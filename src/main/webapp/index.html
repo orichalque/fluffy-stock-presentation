@@ -216,13 +216,30 @@
                     </div>
                 </div>
 
-                <div class="form-group">
-                    <label for="role" class="col-md-3 control-label">Droits: </label>
+                <div class="form-group"class="col-md-3 control-label">
+                    <label for="role">Droits: </label>
 
                     <select class="form-control" id="role" ng-model="user.role">
                         <option>client</option>
                         <option>admin</option>
                     </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-md-3 control-label">
+                        <h4>
+                            <div class="label label-success " ng-show="entityAdded">{{message}}</div>
+                        </h4>
+                        <h4>
+                            <div class="label label-danger " ng-show="error">{{message}}</div>
+                        </h4>
+                    </label>
+
+                    <div class="col-md-4 control-label">
+                        </h4>
+                        <input  type="submit" value="Soumettre" class="btn btn-primary"
+                               align="right">
+                    </div>
                 </div>
             </form>
 
