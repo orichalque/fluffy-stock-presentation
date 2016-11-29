@@ -226,6 +226,14 @@
                 console.error("can't find user")
             });
         };
+
+        $scope.getUsers = function() {
+            sendHttpRequest(config.urlAdmin + 'users', {},'GET').then(function (data) {
+               $scope.users = data
+            }, function() {
+                console.error("can't get all users")
+            });
+        };
         /**
          * Ajout d'un administrateur rentré par l'utilisateur dans les champs
          * Appels un service REST permettant l'ajout
@@ -240,18 +248,11 @@
             sendHttpRequest(config.urlAdmin + 'user/' + $scope.user.role, $scope.user.mail.replace(new RegExp("\\.", 'g'), "*"),'POST').then(function () {
                 $scope.message = "Utilisateur Ajouté avec succès";
                 $scope.entityAdded = true;
-                //MAJ de l'affichage
+                $scope.getUsers();
             }, function (){//errorCallback
                 $scope.error = true;
                 $scope.message = "failure : l'utilisateur est incorrect ou déjà présent";
             });
-        };
-
-        /**
-         * Verifie l'égalité des deux mdp rentrés dans le champ du formulaire
-         */
-        $scope.mdpEquals = function () {
-            return $scope.user.password == $scope.user.confirmation;
         };
 
         /**
@@ -263,7 +264,7 @@
             //fenetre modale
             if (confirm('Voulez-vous vraiment supprimer cet utilisateur ?')) {
                 //appel REST de suppression de l'admin à l'aide de son nom
-                sendHttpRequest(config.url + 'admins/' + user.nom_user,{},'DELETE').then(function () {
+                sendHttpRequest(config.urlAdmin + 'users/' + user.mail,{},'DELETE').then(function () {
                     var index = $scope.users.indexOf(user);
                     if (index > -1) {
                         //MAJ affichage
@@ -376,4 +377,5 @@ var onSignIn=function(googleUser) {
     var profile = googleUser.getBasicProfile();
     var scope = angular.element(document.getElementById("mainWrap")).scope();
     scope.getUser(profile.getEmail());
+    scope.getUsers();
 };

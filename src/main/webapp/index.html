@@ -29,70 +29,198 @@
 <body ng-app="adminApp">
 
 
-<div id="mainWrap" class="container-fluid" ng-controller="productCtrl as tab">
+<div id="mainWrap" class="container-fluid" ng-controller="productCtrl as tab" >
+    <div id = "admin" ng-show = "isAdmin">
+        <div class="col-sm-3 col-md-2 sidebar">
+            <ul class="nav nav-pills nav-stacked">
+                <li role="presentation" ng-class="{ active: tab.isSet(1) }" class="active"><a href ng-click="tab.setTab(1)">
+                    Products</a></li>
 
-    <div class="col-sm-3 col-md-2 sidebar">
-        <ul class="nav nav-pills nav-stacked">
-            <li role="presentation" ng-class="{ active: tab.isSet(1) }" class="active"><a href ng-click="tab.setTab(1)">
-                Products</a></li>
+                <li role="presentation" ng-class="{ active: tab.isSet(2) }" class=""><a href ng-click="tab.setTab(2)">
+                    Administrateurs</a></li>
 
-            <li role="presentation" ng-class="{ active: tab.isSet(2) }" class=""><a href ng-click="tab.setTab(2)">
-                Administrateurs</a></li>
+                <div class="g-signin2" data-onsuccess="onSignIn"></div>
 
-            <div class="g-signin2" data-onsuccess="onSignIn"></div>
+            </ul>
+        </div>
+        <div class="col-sm-9 col-sm--3 col-md-10 main">
+            <div ng-show="tab.isSet(1)">
+                <div class="col-sm-9 col-sm--3 col-md-10 main">
+                    <h4>Ajoutez votre Produit</h4>
 
-        </ul>
-    </div>
-    <div class="col-sm-9 col-sm--3 col-md-10 main" ng-show = "isAdmin">
-        <div ng-show="tab.isSet(1)">
-            <div class="col-sm-9 col-sm--3 col-md-10 main">
-                <h4>Ajoutez votre Produit</h4>
+                    <br>
 
-                <br>
-                <pre>{{jsonProduct}}</pre>
-                <br>
+                    <form class="form-horizontal ng-valid ng-dirty" role="form" ng-submit="addProduct()">
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">Nom du produit</label>
 
-                <form class="form-horizontal ng-valid ng-dirty" role="form" ng-submit="addProduct()">
-                    <div class="form-group">
-                        <label class="col-md-3 control-label">Nom du produit</label>
-
-                        <div class="col-md-4">
-                            <input type="text" placeholder="Nom du product" class="form-control ng-valid ng-dirty"
-                                   ng-model="jsonProduct.name" ng-click="setFalse()" required>
+                            <div class="col-md-4">
+                                <input type="text" placeholder="Nom du product" class="form-control ng-valid ng-dirty"
+                                       ng-model="jsonProduct.name" ng-click="setFalse()" required>
+                            </div>
                         </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-md-3 control-label">Type</label>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">Type</label>
+                            <div class="col-md-4">
+                                <select name="SelectType" id="SelectType"
+                                        ng-options="type as type for type in types"
+                                        ng-model="jsonProduct.productType"
+                                        ng-click="setFalse()">
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">Description correspondante</label>
+
+                            <div class="col-md-4">
+                                <input type="text" placeholder="Description" class="form-control ng-valid ng-dirty"
+                                       ng-model="jsonProduct.description" ng-click="setFalse()" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">Prix du product</label>
+
+                            <div class="col-md-4">
+                                <input type="text" placeholder="0" class="form-control ng-valid ng-dirty"
+                                       ng-model="jsonProduct.price" ng-click="setFalse()">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">Quantité de product</label>
+
+                            <div class="col-md-4">
+                                <input type="text" placeholder="0" class="form-control ng-valid ng-dirty"
+                                       ng-model="jsonProduct.quantity" ng-click="setFalse()">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">
+                                <h4>
+                                    <div class="label label-success " ng-show="entityAdded">{{message}}</div>
+                                </h4>
+                                <h4>
+                                    <div class="label label-danger " ng-show="error">{{message}}</div>
+                                </h4>
+                            </label>
+
+                            <div class="col-md-4 control-label">
+                                <input type="submit" value="Soumettre" class="btn btn-primary" align="right">
+                            </div>
+
+                        </div>
+                    </form>
+
+
+                    <div align="center">
                         <div class="col-md-4">
-                            <select name="SelectType" id="SelectType"
-                                    ng-options="type as type for type in types"
-                                    ng-model="jsonProduct.productType"
-                                    ng-click="setFalse()">
+                            <button class="btn btn-info" ng-click="prev()"> < </button>
+                            <button class="btn btn-default" ng-click="next()"> > </button>
+                        </div>
+
+                        <div class="col-md-offset-8">
+                            <select name="selectItemPerPage" id="selectItemPerPage"
+                                    ng-model="itemPerPage"
+                                    ng-click="pageChanged()">
+                                <option value="10">10</option>
+                                <option value="20">20</option>
+                                <option value="30">30</option>
                             </select>
                         </div>
                     </div>
+
+                    <div class="table table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                            <tr>
+                                <th>Products existants</th>
+                                <th>Type</th>
+                                <th>Prix</th>
+                                <th>Quantité</th>
+                                <th>Description</th>
+                            </tr>
+                            </thead>
+                            <tbody ng-repeat="product in products">
+                            <tr>
+                                <td>
+                                <span ng-show="modif(product.name)">
+                                <input type="text" class="form-control ng-valid ng-dirty" ng-model="product.name"
+                                       ng-enter="change_product(product)">
+                                     </span>
+                                <span ng-show="!modif(product.name)">
+                                    {{product.name}}
+                                </span>
+                                </td>
+
+                                <td>{{product.productType}}</td>
+                                <td>
+                                <span ng-show="modif(product.name)">
+                                <input type="text" class="form-control ng-valid ng-dirty" ng-model="product.price"
+                                       ng-enter="change_product(product)">
+                                     </span>
+                                <span ng-show="!modif(product.name)">
+                                    {{product.price}}
+                                </span>
+                                </td>
+                                <td>
+                                <span ng-show="modif(product.name)">
+                                <input type="text" class="form-control ng-valid ng-dirty"
+                                       ng-model="product.quantity" ng-enter="change_product(product)">
+                                     </span>
+                                <span ng-show="!modif(product.name)">
+                                    {{product.quantity}}
+                                </span>
+                                </td>
+                                <td>
+                                <span ng-show="modif(product.name)">
+                                <input type="text" class="form-control ng-valid ng-dirty"
+                                       ng-model="product.description" ng-enter="change_product(product)">
+                                     </span>
+                                <span ng-show="!modif(product.name)">
+                                    {{product.description}}
+                                </span>
+                                </td>
+                                <td align="right">
+                                    <div class="btn-group" role="group">
+                                        <button ng-show="!modif(product.name)" class="btn btn-primary btn-xs"
+                                                ng-click="modifier(product.name)">Modifier
+                                        </button>
+                                        <button ng-show="modif(product.name)" class="btn btn-primary btn-xs"
+                                                ng-click="change_product(product)">Confirmer
+                                        </button>
+
+                                        <button type="button" class="btn btn-danger btn-xs" style="font-weight:bold;"
+                                                ng-click="removeProduct(product)">x
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div ng-show="tab.isSet(2)">
+                <h4>Ajoutez votre Utilisateur</h4>
+                <br/>
+
+                <form class="form-horizontal ng-valid ng-dirty" role="form" ng-submit="register()">
                     <div class="form-group">
-                        <label class="col-md-3 control-label">Description correspondante</label>
+                        <label class="col-md-3 control-label">Adresse email: </label>
 
                         <div class="col-md-4">
-                            <input type="text" placeholder="Description" class="form-control ng-valid ng-dirty"
-                                   ng-model="jsonProduct.description" ng-click="setFalse()" required>
+                            <input type="text" placeholder="Nom d'utilisateur" class="form-control" id="email"
+                                   name="mail"
+                                   ng-model="user.mail" ng-click="setFalse()" required>
                         </div>
                     </div>
-                    <div class="form-group">
-                        <label class="col-md-3 control-label">Prix du product</label>
 
-                        <div class="col-md-4">
-                            <input type="text" placeholder="0" class="form-control ng-valid ng-dirty"
-                                   ng-model="jsonProduct.price" ng-click="setFalse()">
-                        </div>
-                    </div>
                     <div class="form-group">
-                        <label class="col-md-3 control-label">Quantité de product</label>
-
+                        <label class="col-md-3 control-label">Droits:</label>
                         <div class="col-md-4">
-                            <input type="text" placeholder="0" class="form-control ng-valid ng-dirty"
-                                   ng-model="jsonProduct.quantity" ng-click="setFalse()">
+                            <select id="role" ng-model="user.role">
+                                <option>client</option>
+                                <option>admin</option>
+                            </select>
                         </div>
                     </div>
                     <div class="form-group">
@@ -106,94 +234,29 @@
                         </label>
 
                         <div class="col-md-4 control-label">
-                            <input type="submit" value="Soumettre" class="btn btn-primary" align="right">
+                            </h4>
+                            <input  type="submit" value="Soumettre" class="btn btn-primary"
+                                    align="right">
                         </div>
-
                     </div>
                 </form>
 
-
-                <div align="center">
-                    <div class="col-md-4">
-                        <button class="btn btn-info" ng-click="prev()"> < </button>
-                        <button class="btn btn-default" ng-click="next()"> > </button>
-                    </div>
-
-                    <div class="col-md-offset-8">
-                        <select name="selectItemPerPage" id="selectItemPerPage"
-                                ng-model="itemPerPage"
-                                ng-click="pageChanged()">
-                            <option value="10">10</option>
-                            <option value="20">20</option>
-                            <option value="30">30</option>
-                        </select>
-                    </div>
-                </div>
-
-                <div class="table table-responsive">
+                <div class="table-responsive">
                     <table class="table table-striped">
                         <thead>
                         <tr>
-                            <th>Products existants</th>
-                            <th>Type</th>
-                            <th>Prix</th>
-                            <th>Quantité</th>
-                            <th>Description</th>
+                            <th>Liste des utilisateurs</th>
+                            <th>Role</th>
                         </tr>
                         </thead>
-                        <tbody ng-repeat="product in products">
+                        <tbody ng-repeat="user in users">
                         <tr>
-                            <td>
-                                <span ng-show="modif(product.name)">
-                                <input type="text" class="form-control ng-valid ng-dirty" ng-model="product.name"
-                                       ng-enter="change_product(product)">
-                                     </span>
-                                <span ng-show="!modif(product.name)">
-                                    {{product.name}}
-                                </span>
-                            </td>
-
-                            <td>{{product.productType}}</td>
-                            <td>
-                                <span ng-show="modif(product.name)">
-                                <input type="text" class="form-control ng-valid ng-dirty" ng-model="product.price"
-                                       ng-enter="change_product(product)">
-                                     </span>
-                                <span ng-show="!modif(product.name)">
-                                    {{product.price}}
-                                </span>
-                            </td>
-                            <td>
-                                <span ng-show="modif(product.name)">
-                                <input type="text" class="form-control ng-valid ng-dirty"
-                                       ng-model="product.quantity" ng-enter="change_product(product)">
-                                     </span>
-                                <span ng-show="!modif(product.name)">
-                                    {{product.quantity}}
-                                </span>
-                            </td>
-                            <td>
-                                <span ng-show="modif(product.name)">
-                                <input type="text" class="form-control ng-valid ng-dirty"
-                                       ng-model="product.description" ng-enter="change_product(product)">
-                                     </span>
-                                <span ng-show="!modif(product.name)">
-                                    {{product.description}}
-                                </span>
-                            </td>
+                            <td>{{user.mail}}</td>
+                            <td>{{user.role}}</td>
                             <td align="right">
-                                <div class="btn-group" role="group">
-                                    <button ng-show="!modif(product.name)" class="btn btn-primary btn-xs"
-                                            ng-click="modifier(product.name)">Modifier
-                                    </button>
-                                    <button ng-show="modif(product.name)" class="btn btn-primary btn-xs"
-                                            ng-click="change_product(product)">Confirmer
-                                    </button>
-
-                                    <button type="button" class="btn btn-danger btn-xs" style="font-weight:bold;"
-                                            ng-click="removeProduct(product)">x
-                                    </button>
-                                </div>
+                                <button type="button" class="btn btn-danger btn-xs" style="font-weight:bold;"
+                                        ng-click="removeAdmin(user)">x
+                                </button>
                             </td>
                         </tr>
                         </tbody>
@@ -201,69 +264,12 @@
                 </div>
             </div>
         </div>
-        <div ng-show="tab.isSet(2)">
-            <h4>Ajoutez votre Utilisateur</h4>
-            <br/>
-
-            <form class="form-horizontal ng-valid ng-dirty" role="form" ng-submit="register()">
-                <div class="form-group">
-                    <label class="col-md-3 control-label">Adresse email: </label>
-
-                    <div class="col-md-4">
-                        <input type="text" placeholder="Nom d'utilisateur" class="form-control" id="email"
-                               name="mail"
-                               ng-model="user.mail" ng-click="setFalse()" required>
-                    </div>
-                </div>
-
-                <div class="form-group"class="col-md-3 control-label">
-                    <label for="role">Droits: </label>
-
-                    <select class="form-control" id="role" ng-model="user.role">
-                        <option>client</option>
-                        <option>admin</option>
-                    </select>
-                </div>
-
-                <div class="form-group">
-                    <label class="col-md-3 control-label">
-                        <h4>
-                            <div class="label label-success " ng-show="entityAdded">{{message}}</div>
-                        </h4>
-                        <h4>
-                            <div class="label label-danger " ng-show="error">{{message}}</div>
-                        </h4>
-                    </label>
-
-                    <div class="col-md-4 control-label">
-                        </h4>
-                        <input  type="submit" value="Soumettre" class="btn btn-primary"
-                               align="right">
-                    </div>
-                </div>
-            </form>
-
-            <div class="table-responsive">
-                <table class="table table-striped">
-                    <thead>
-                    <tr>
-                        <th>Liste des utilisateurs</th>
-                    </tr>
-                    </thead>
-                    <tbody ng-repeat="user in users">
-                    <tr>
-                        <td>{{user.nom_user}}</td>
-                        <td align="right">
-                            <button type="button" class="btn btn-danger btn-xs" style="font-weight:bold;"
-                                    ng-click="removeAdmin(user)">x
-                            </button>
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
     </div>
+    <div id = "client" ng-show = "isClient">
+        <h1>Bienvenue sur l'interface Réservée aux clients</h1>
+        <h4>Develloppement en cours, vous pouvez en attendant consulter  <a href="api.html">l'api disponible</a></h4>
+    </div>
+
 </div>
 
 
