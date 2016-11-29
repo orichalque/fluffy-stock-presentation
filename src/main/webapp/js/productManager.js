@@ -341,11 +341,11 @@
      * Directive permettant l'affichage du pied de page
      * ==============================================================
      */
-    /*app.directive("footerperso", function () {
+    app.directive("footerperso", function () {
         return {
             templateUrl: "footer.html"
         };
-    });*/
+    });
 
     /**
      * Directive permettant la detection de l'appuie sur la touche Entrée
