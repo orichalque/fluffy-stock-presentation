@@ -214,7 +214,7 @@
         $scope.isClient = false;
 
         $scope.getUser = function(email) {
-            sendHttpRequest(config.urlAdmin + 'user/'+ email, {},'GET').then(function (data) {
+            sendHttpRequest(config.urlAdmin + 'user/'+ encodeURIComponent(email.trim()), {},'GET').then(function (data) {
                 if (data.role === "ADMIN" || data.role === "admin") {
                     $scope.isAdmin = true;
                 } else if (data.role === "CLIENT" || data.role === "client") {
