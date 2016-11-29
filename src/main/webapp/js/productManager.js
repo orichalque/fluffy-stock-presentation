@@ -30,7 +30,7 @@
                 defer.reject(response.data);
             });
             return defer.promise;
-        };
+        }
         //valeurs par défauts
         /**
          * Indique si le message d'ajout doit s'afficher
@@ -94,11 +94,11 @@
         $scope.next= function(){
             $scope.currentPage ++;
             getProductsPagination();
-        }
+        };
         $scope.prev= function(){
             $scope.currentPage --;
             getProductsPagination();
-        }
+        };
         $scope.pageChanged = function() {
             getProductsPagination();
         };
@@ -110,18 +110,11 @@
          * Appels l'application SLD 360
          */
 
-        function getProducts() {
-            sendHttpRequest(config.urlAdmin + 'products', {}, 'GET').then(function(data) {
-                $scope.products = data;
-            });
-        };
-        getProducts();
-
         function getProductsPagination() {
             sendHttpRequest(config.url + 'products?page='+$scope.currentPage+"&size="+$scope.itemPerPage, {}, 'GET').then(function(data) {
                 $scope.products = data;
             });
-        };
+        }
         getProductsPagination();
 
         $scope.jsonProduct = {
@@ -137,8 +130,6 @@
          * Appel effectué sur l'application SLD360
          */
 
-        $scope.testadd = function(){
-            }
         $scope.addProduct = function () {
             $scope.error = false;
             $scope.message = '';
@@ -219,14 +210,27 @@
          * Onglet administration des admin
          * ==============================================================
          */
+        $scope.isAdmin = false;
+        $scope.isClient = false;
 
+        $scope.getUser = function(email) {
+            sendHttpRequest(config.urlAdmin + 'user/'+ email, {},'GET').then(function (data) {
+                if (data.role === "ADMIN" || data.role === "admin") {
+                    $scope.isAdmin = true;
+                } else if (data.role === "CLIENT" || data.role === "client") {
+                    $scope.isClient = true;
+                }
+            }, function() {
+                console.error("can't find user")
+            });
+        };
         /**
          * Ajout d'un administrateur rentré par l'utilisateur dans les champs
          * Appels un service REST permettant l'ajout
          * Appel effectué sur l'application SLD360
          */
-        $scope.user = {username: "", password: "", confirmation: ""};
-        $scope.register = function () {
+       // $scope.user = {username: "", password: "", confirmation: ""};
+        $scope.register = function() {
             $scope.message = '';
             //creation du Json à envoyer
             $scope.jsonUser = {
@@ -372,8 +376,6 @@
 
 var onSignIn=function(googleUser) {
     var profile = googleUser.getBasicProfile();
-    console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
-    console.log('Name: ' + profile.getName());
-    console.log('Image URL: ' + profile.getImageUrl());
-    console.log('Email: ' + profile.getEmail());
+    var scope = angular.element(document.getElementById("productCtrl")).scope();
+    scope.getUser(profile.getEmail());
 };
