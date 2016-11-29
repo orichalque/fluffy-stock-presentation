@@ -16,6 +16,8 @@
     var app = angular.module("adminApp", []);
     app.controller("productCtrl", ['$scope', '$http', '$window','$q',  function ($scope, $http, $window, $q) {
 
+        $scope.user = {"mail" : "", "role" : ""};
+
         function sendHttpRequest(uri, parameters, pMethod) {
             var defer = $q.defer();
             $http({
@@ -233,19 +235,15 @@
         $scope.register = function() {
             $scope.message = '';
             //creation du Json à envoyer
-            $scope.jsonUser = {
-                nom_user: $scope.user.username,
-                mdp_user: encode($scope.user.password)
-            };
+
             //appel REST pour creer l'administrateur en base
-            sendHttpRequest(config.url + 'admins', $scope.jsonUser,'POST').then(function () {
+            sendHttpRequest(config.urlAdmin + 'user/' + $scope.user.role, $scope.user.mail.replace(new RegExp("\\.", 'g'), "*"),'POST').then(function () {
                 $scope.message = "Utilisateur Ajouté avec succès";
                 $scope.entityAdded = true;
                 //MAJ de l'affichage
-                $scope.users.push($scope.jsonUser);
             }, function (){//errorCallback
                 $scope.error = true;
-                $scope.message = "failure : n'existe-t-il pas déja dans la base ?";
+                $scope.message = "failure : l'utilisateur est incorrect ou déjà présent";
             });
         };
 

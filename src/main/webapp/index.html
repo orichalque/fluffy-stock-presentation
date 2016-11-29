@@ -207,53 +207,25 @@
 
             <form class="form-horizontal ng-valid ng-dirty" role="form" ng-submit="register()">
                 <div class="form-group">
-                    <label class="col-md-3 control-label">Nom Utilisateur</label>
+                    <label class="col-md-3 control-label">Adresse email: </label>
 
                     <div class="col-md-4">
-                        <input type="text" placeholder="Nom d'utilisateur" class="form-control" id="username"
-                               name="username"
-                               ng-model="user.username" ng-click="setFalse()" required>
+                        <input type="text" placeholder="Nom d'utilisateur" class="form-control" id="email"
+                               name="mail"
+                               ng-model="user.mail" ng-click="setFalse()" required>
                     </div>
                 </div>
+
                 <div class="form-group">
-                    <label class="col-md-3 control-label">Mot de Passe</label>
+                    <label for="role" class="col-md-3 control-label">Droits: </label>
 
-                    <div class="col-md-4">
-                        <input type="password" placeholder="Mot de passe" class="form-control ng-valid ng-dirty"
-                               name="password"
-                               ng-model="user.password" ng-click="setFalse()">
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-md-3 control-label">Confirmez le mot de passe</label>
-
-                    <div class="col-md-4">
-                        <input type="password" placeholder="Repeter le mot de passe"
-                               class="form-control ng-valid ng-dirty" name="confirmation"
-                               ng-model="user.confirmation" ng-click="setFalse()">
-                    </div>
-
-                </div>
-                <div class="form-group">
-                    <label class="col-md-3 control-label">
-                        <h4>
-                            <div class="label label-success " ng-show="entityAdded">{{message}}</div>
-                        </h4>
-                        <h4>
-                            <div class="label label-danger " ng-show="error">{{message}}</div>
-                        </h4>
-                    </label>
-
-                    <div class="col-md-4 control-label">
-                        <h4><span class="label label-danger" ng-show="!mdpEquals()"> Les mots de passe sont différents</span>
-                        </h4>
-                        <input ng-show="mdpEquals()" type="submit" value="Soumettre" class="btn btn-primary"
-                               align="right">
-                    </div>
-
-
+                    <select class="form-control" id="role" ng-model="user.role">
+                        <option>client</option>
+                        <option>admin</option>
+                    </select>
                 </div>
             </form>
+
             <div class="table-responsive">
                 <table class="table table-striped">
                     <thead>
