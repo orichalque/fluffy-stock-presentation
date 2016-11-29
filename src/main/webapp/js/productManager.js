@@ -376,6 +376,6 @@
 
 var onSignIn=function(googleUser) {
     var profile = googleUser.getBasicProfile();
-    var scope = angular.element(document.getElementById("productCtrl")).scope();
+    var scope = angular.element(document.getElementById("mainWrap")).scope();
     scope.getUser(profile.getEmail());
 };
