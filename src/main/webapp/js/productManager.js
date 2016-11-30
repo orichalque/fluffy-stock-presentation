@@ -307,45 +307,10 @@
 
     }]);
 
-    /**
-     * Directive permettant l'affichage de la barre de navigation
-     * ==============================================================
-     */
-    /*app.directive("navbarperso", function () {
-        return {
-            templateUrl: "navbar.html",
-            controller: ['$scope', '$http', function ($scope, $http) {
-                $scope.versions = [{version_SI: ""}];
-                $http.get(config.url + 'rest/versions').success(function (data) {
-                    $scope.versions = data;
-                    $scope.distinctVersions = [];
-                    doublon:
-                        for (var i in $scope.versions) {
-                            var version = $scope.versions[i].version_SI;
-                            for (var j in $scope.distinctVersions) {
-                                if (version == $scope.distinctVersions[j]) {
-                                    continue doublon;
-                                }
-                            }
-                            $scope.distinctVersions.push(version);
-                        }
-                });
-            }]
-        };
-    });*/
     /*
      * ==============================================================
      */
 
-    /**
-     * Directive permettant l'affichage du pied de page
-     * ==============================================================
-     */
-    app.directive("footerperso", function () {
-        return {
-            templateUrl: "footer.html"
-        };
-    });
 
     /**
      * Directive permettant la detection de l'appuie sur la touche Entrée
