@@ -197,7 +197,7 @@
          * @param product le product modifié
          */
         $scope.change_product=function(product){
-            sendHttpRequest(config.urlAdmin + "product/"+product.id, product,'POST').then(function () {
+            sendHttpRequest(config.urlAdmin + "product/"+product.id, product,'PUT').then(function () {
                 $scope.tomodif="";
             });
         };
@@ -317,7 +317,7 @@
      * Utile pour les modifications dans la zone admin
      * ==============================================================
      */
-   /* app.directive('ngEnter', function() {
+    app.directive('ngEnter', function() {
         return function(scope, element, attrs) {
             element.bind("keydown keypress", function(event) {
                 if(event.which === 13) {
@@ -329,10 +329,20 @@
                 }
             });
         };
-    });*/
+    });
     /*
      * ==============================================================
      */
+
+    /**
+     * Directive permettant l'affichage de la barre de navigation
+     * ==============================================================
+     */
+    app.directive("navbarperso", function () {
+        return {
+            templateUrl: "navbar.html",
+            }
+        });
 
 
 })();

@@ -29,6 +29,25 @@
 <body ng-app="adminApp">
 
 
+<nav class="navbar navbar-inverse navbar-top">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
+                    aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-left" href="index.html"><img  src="resources/ffs.jpg" width="80" style="margin-top:2px"> </a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse" align="center" style="color: white">
+            <h2>FluffyStock</h2>
+        </div>
+        <!--/.nav-collapse -->
+    </div>
+</nav>
+
 <div id="mainWrap" class="container-fluid" ng-controller="productCtrl as tab" >
     <div id = "admin" ng-show = "isAdmin">
         <div class="col-sm-3 col-md-2 sidebar">
@@ -150,7 +169,18 @@
                                 </span>
                                 </td>
 
-                                <td>{{product.productType}}</td>
+                                <td>
+                                    <span ng-show="modif(product.name)">
+                                        <select class="form-control ng-valid ng-dirty" name="SelectType" id="SelectTypeModif"
+                                                ng-options="type as type for type in types"
+                                                ng-model="product.productType"
+                                                ng-click="setFalse()">
+                                        </select>
+                                     </span>
+                                    <span ng-show="!modif(product.name)">
+                                        {{product.productType}}
+                                </span>
+                                </td>
                                 <td>
                                 <span ng-show="modif(product.name)">
                                 <input type="text" class="form-control ng-valid ng-dirty" ng-model="product.price"
