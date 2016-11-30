@@ -334,18 +334,6 @@
      * ==============================================================
      */
 
-    /**
-     * Directive permettant l'affichage de la barre de navigation
-     * ==============================================================
-     */
-    app.directive("navbarperso", function () {
-        return {
-            templateUrl: "navbar.html",
-            }
-        });
-
-
-})();
 
 
 /**
