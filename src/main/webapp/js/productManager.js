@@ -14,9 +14,9 @@
      * $q promises
      */
     var app = angular.module("adminApp", []);
-    app.controller("productCtrl", ['$scope', '$http', '$window','$q',  function ($scope, $http, $window, $q) {
+    app.controller("productCtrl", ['$scope', '$http', '$window', '$q', function ($scope, $http, $window, $q) {
 
-        $scope.user = {"mail" : "", "role" : ""};
+        $scope.user = {"mail": "", "role": ""};
 
         function sendHttpRequest(uri, parameters, pMethod) {
             var defer = $q.defer();
@@ -33,6 +33,7 @@
             });
             return defer.promise;
         }
+
         //valeurs par défauts
         /**
          * Indique si le message d'ajout doit s'afficher
@@ -51,7 +52,7 @@
          */
         $scope.products = [{nom_product: "Loading..."}];
 
-        $scope.types=['MINERAL', 'DIVERS', 'BOIS', 'METAL',
+        $scope.types = ['MINERAL', 'DIVERS', 'BOIS', 'METAL',
             "alimentaire",
             "hygiene",
             "liquide",
@@ -60,19 +61,19 @@
             "bazar"
         ];
 
-        $scope.numberByPage = [10,20,30,40];
+        $scope.numberByPage = [10, 20, 30, 40];
         /*
          * ==============================================================
          */
 
 
         //--------------Utilitaires pour les modifications des données---------------
-        $scope.tomodif="";
-        $scope.modifier=function(nom){
+        $scope.tomodif = "";
+        $scope.modifier = function (nom) {
             $scope.tomodif = nom;
         };
-        $scope.modif=function(nom){
-            return nom==$scope.tomodif;
+        $scope.modif = function (nom) {
+            return nom == $scope.tomodif;
 
         };
         /*
@@ -93,15 +94,15 @@
         $scope.itemPerPage = 20;
 
 
-        $scope.next= function(){
-            $scope.currentPage ++;
+        $scope.next = function () {
+            $scope.currentPage++;
             getProductsPagination();
         };
-        $scope.prev= function(){
-            $scope.currentPage --;
+        $scope.prev = function () {
+            $scope.currentPage--;
             getProductsPagination();
         };
-        $scope.pageChanged = function() {
+        $scope.pageChanged = function () {
             getProductsPagination();
         };
 
@@ -113,10 +114,11 @@
          */
 
         function getProductsPagination() {
-            sendHttpRequest(config.url + 'products?page='+$scope.currentPage+"&size="+$scope.itemPerPage, {}, 'GET').then(function(data) {
+            sendHttpRequest(config.url + 'products?page=' + $scope.currentPage + "&size=" + $scope.itemPerPage, {}, 'GET').then(function (data) {
                 $scope.products = data;
             });
         }
+
         getProductsPagination();
 
         $scope.jsonProduct = {
@@ -138,7 +140,7 @@
 
 
             //appel REST pour ajouter le product
-            sendHttpRequest(config.urlAdmin + 'product', JSON.stringify($scope.jsonProduct), 'POST').then(function() {
+            sendHttpRequest(config.urlAdmin + 'product', JSON.stringify($scope.jsonProduct), 'POST').then(function () {
                 $scope.message = "Product Ajouté avec succès";
                 $scope.entityAdded = true;
                 $scope.jsonProduct = {
@@ -149,10 +151,10 @@
                     quantity: 0
                 };
                 //actualisation des produits
-                sendHttpRequest(config.url + 'products', null, 'GET').then(function(data){
-                    $scope.products=data;
+                sendHttpRequest(config.url + 'products', null, 'GET').then(function (data) {
+                    $scope.products = data;
                 });
-            }, function (){//errorCallback
+            }, function () {//errorCallback
                 $scope.error = true;
                 $scope.message = "failure : n'existe-t-il pas déja dans la base ?";
                 $scope.jsonProduct = {
@@ -169,7 +171,7 @@
         //pour enlever la bulle "d'ajout avec succes"
         $scope.setFalse = function () {
             $scope.entityAdded = false;
-            $scope.error=false;
+            $scope.error = false;
         };
 
         /**
@@ -182,7 +184,7 @@
             //Fenetre modale
             if (confirm('Voulez-vous vraiment supprimer ce produit?')) {
                 //appel REST de suppression en fonction de l'id du product
-                sendHttpRequest(config.url + 'products/'+product.id,{},'DELETE').then(function () {
+                sendHttpRequest(config.urlAdmin + 'product/' + product.id, {}, 'DELETE').then(function () {
                     //on supprime aussi le product de l'affichage (pas besoin d'actualiser)
                     var index = $scope.products.indexOf(product);
                     if (index > -1) {
@@ -196,16 +198,16 @@
          * modification de la campagne et/ou de la description d'un product et/ou de son nom
          * @param product le product modifié
          */
-        $scope.change_product=function(product){
-            sendHttpRequest(config.urlAdmin + "product/"+product.id, product,'PUT').then(function () {
-                $scope.tomodif="";
+        $scope.change_product = function (product) {
+
+            sendHttpRequest(config.urlAdmin + "product/" + product.id, angular.toJson(product), 'PUT').then(function () {
+                $scope.tomodif = "";
             });
         };
 
         /*
          * ==============================================================
-        */
-
+         */
 
 
         /*
@@ -215,22 +217,22 @@
         $scope.isAdmin = false;
         $scope.isClient = false;
 
-        $scope.getUser = function(email) {
-            sendHttpRequest(config.urlAdmin + 'user/'+ email.replace(new RegExp("\\.", 'g'), "*"), {},'GET').then(function (data) {
+        $scope.getUser = function (email) {
+            sendHttpRequest(config.urlAdmin + 'user/' + email.replace(new RegExp("\\.", 'g'), "*"), {}, 'GET').then(function (data) {
                 if (data.role === "ADMIN" || data.role === "admin") {
                     $scope.isAdmin = true;
                 } else if (data.role === "CLIENT" || data.role === "client") {
                     $scope.isClient = true;
                 }
-            }, function() {
+            }, function () {
                 console.error("can't find user")
             });
         };
 
-        $scope.getUsers = function() {
-            sendHttpRequest(config.urlAdmin + 'users', {},'GET').then(function (data) {
-               $scope.users = data
-            }, function() {
+        $scope.getUsers = function () {
+            sendHttpRequest(config.urlAdmin + 'users', {}, 'GET').then(function (data) {
+                $scope.users = data
+            }, function () {
                 console.error("can't get all users")
             });
         };
@@ -239,17 +241,17 @@
          * Appels un service REST permettant l'ajout
          * Appel effectué sur l'application SLD360
          */
-       // $scope.user = {username: "", password: "", confirmation: ""};
-        $scope.register = function() {
+            // $scope.user = {username: "", password: "", confirmation: ""};
+        $scope.register = function () {
             $scope.message = '';
             //creation du Json à envoyer
 
             //appel REST pour creer l'administrateur en base
-            sendHttpRequest(config.urlAdmin + 'user/' + $scope.user.role, $scope.user.mail.replace(new RegExp("\\.", 'g'), "*"),'POST').then(function () {
+            sendHttpRequest(config.urlAdmin + 'user/' + $scope.user.role, $scope.user.mail.replace(new RegExp("\\.", 'g'), "*"), 'POST').then(function () {
                 $scope.message = "Utilisateur Ajouté avec succès";
                 $scope.entityAdded = true;
                 $scope.getUsers();
-            }, function (){//errorCallback
+            }, function () {//errorCallback
                 $scope.error = true;
                 $scope.message = "failure : l'utilisateur est incorrect ou déjà présent";
             });
@@ -264,7 +266,7 @@
             //fenetre modale
             if (confirm('Voulez-vous vraiment supprimer cet utilisateur ?')) {
                 //appel REST de suppression de l'admin à l'aide de son nom
-                sendHttpRequest(config.urlAdmin + 'users/' + user.mail,{},'DELETE').then(function () {
+                sendHttpRequest(config.urlAdmin + 'user/' + user.mail, {}, 'DELETE').then(function () {
                     var index = $scope.users.indexOf(user);
                     if (index > -1) {
                         //MAJ affichage
@@ -276,7 +278,6 @@
         /*
          * ==============================================================
          */
-
 
 
         /*
@@ -302,39 +303,9 @@
         /*
          * ==============================================================
          */
-
-
-
     }]);
 
-    /*
-     * ==============================================================
-     */
-
-
-    /**
-     * Directive permettant la detection de l'appuie sur la touche Entrée
-     * Utile pour les modifications dans la zone admin
-     * ==============================================================
-     */
-    app.directive('ngEnter', function() {
-        return function(scope, element, attrs) {
-            element.bind("keydown keypress", function(event) {
-                if(event.which === 13) {
-                    scope.$apply(function(){
-                        scope.$eval(attrs.ngEnter, {'event': event});
-                    });
-
-                    event.preventDefault();
-                }
-            });
-        };
-    });
-    /*
-     * ==============================================================
-     */
-
-
+})();
 
 /**
  * Methode d'Oauth google
