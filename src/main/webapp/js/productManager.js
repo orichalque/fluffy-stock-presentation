@@ -338,6 +338,10 @@
 })();
 
 
+/**
+ * Methode d'Oauth google
+ * @param googleUser token
+ */
 var onSignIn=function(googleUser) {
     var profile = googleUser.getBasicProfile();
     var scope = angular.element(document.getElementById("mainWrap")).scope();
