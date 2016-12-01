@@ -26,5 +26,6 @@ public class WebConfiguration extends WebMvcConfigurerAdapter {
         //Set the welcome page ton index.html
         registry.addViewController("/").setViewName("forward:/index.html");
         registry.addViewController("/api").setViewName("forward:/api.html");
+        registry.addViewController("/doc").setViewName("forward:/doc/overview-summary.html");
     }
 }
