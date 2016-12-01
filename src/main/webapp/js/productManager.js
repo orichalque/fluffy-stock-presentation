@@ -1,7 +1,7 @@
 /*
  * Application angular JS permettant d'administrer l'application
- * Utilisée sur la page admin.html
- * La recuperation des données ainsi que l'ajout et la supression s'effectue par appels REST sur l'application SLD360
+ * Utilisee sur la page admin.html
+ * La recuperation des donnees ainsi que l'ajout et la supression s'effectue par appels REST sur l'application SLD360
  */
 (function () {
 
@@ -34,7 +34,7 @@
             return defer.promise;
         }
 
-        //valeurs par défauts
+        //valeurs par defauts
         /**
          * Indique si le message d'ajout doit s'afficher
          * @type {boolean}
@@ -47,7 +47,7 @@
         $scope.error = false;
         /**
          * Liste des Products en base
-         * Par défault (avant chargement) contient juste la string "Loading..."
+         * Par default (avant chargement) contient juste la string "Loading..."
          * @type Array of Json de Product
          */
         $scope.products = [{nom_product: "Loading..."}];
@@ -67,7 +67,7 @@
          */
 
 
-        //--------------Utilitaires pour les modifications des données---------------
+        //--------------Utilitaires pour les modifications des donnees---------------
         $scope.tomodif = "";
         $scope.modifier = function (nom) {
             $scope.tomodif = nom;
@@ -129,9 +129,9 @@
             quantity: 0
         };
         /***
-         * Ajout du product rentré par l'utilisateur dans les champs
+         * Ajout du product rentre par l'utilisateur dans les champs
          * Appels un service REST permettant l'ajout
-         * Appel effectué sur l'application SLD360
+         * Appel effectue sur l'application SLD360
          */
 
         $scope.addProduct = function () {
@@ -141,7 +141,7 @@
 
             //appel REST pour ajouter le product
             sendHttpRequest(config.urlAdmin + 'product', JSON.stringify($scope.jsonProduct), 'POST').then(function () {
-                $scope.message = "Product Ajouté avec succès";
+                $scope.message = "Product Ajoute avec succes";
                 $scope.entityAdded = true;
                 $scope.jsonProduct = {
                     name: "",
@@ -156,7 +156,7 @@
                 });
             }, function () {//errorCallback
                 $scope.error = true;
-                $scope.message = "failure : n'existe-t-il pas déja dans la base ?";
+                $scope.message = "failure : n'existe-t-il pas deja dans la base ?";
                 $scope.jsonProduct = {
                     name: "",
                     description: "",
@@ -177,7 +177,7 @@
         /**
          * suppression d'un product
          * Appels un service REST permettant la suppression
-         * Appel effectué sur l'application SLD360
+         * Appel effectue sur l'application SLD360
          * @param product le JSON du product a supprimer
          */
         $scope.removeProduct = function (product) {
@@ -196,7 +196,7 @@
 
         /**
          * modification de la campagne et/ou de la description d'un product et/ou de son nom
-         * @param product le product modifié
+         * @param product le product modifie
          */
         $scope.change_product = function (product) {
 
@@ -237,35 +237,35 @@
             });
         };
         /**
-         * Ajout d'un administrateur rentré par l'utilisateur dans les champs
+         * Ajout d'un administrateur rentre par l'utilisateur dans les champs
          * Appels un service REST permettant l'ajout
-         * Appel effectué sur l'application SLD360
+         * Appel effectue sur l'application SLD360
          */
             // $scope.user = {username: "", password: "", confirmation: ""};
         $scope.register = function () {
             $scope.message = '';
-            //creation du Json à envoyer
+            //creation du Json a envoyer
 
             //appel REST pour creer l'administrateur en base
             sendHttpRequest(config.urlAdmin + 'user/' + $scope.user.role, $scope.user.mail.replace(new RegExp("\\.", 'g'), "*"), 'POST').then(function () {
-                $scope.message = "Utilisateur Ajouté avec succès";
+                $scope.message = "Utilisateur Ajoute avec succes";
                 $scope.entityAdded = true;
                 $scope.getUsers();
             }, function () {//errorCallback
                 $scope.error = true;
-                $scope.message = "failure : l'utilisateur est incorrect ou déjà présent";
+                $scope.message = "failure : l'utilisateur est incorrect ou deja present";
             });
         };
 
         /**
          * suppression d'un admin
          * Appels un service REST permettant la suppression
-         * Appel effectué sur l'application SLD360
+         * Appel effectue sur l'application SLD360
          */
         $scope.removeAdmin = function (user) {
             //fenetre modale
             if (confirm('Voulez-vous vraiment supprimer cet utilisateur ?')) {
-                //appel REST de suppression de l'admin à l'aide de son nom
+                //appel REST de suppression de l'admin a l'aide de son nom
                 sendHttpRequest(config.urlAdmin + 'user/' + user.mail, {}, 'DELETE').then(function () {
                     var index = $scope.users.indexOf(user);
                     if (index > -1) {
