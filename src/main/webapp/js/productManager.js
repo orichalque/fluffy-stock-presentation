@@ -150,10 +150,6 @@
                     price: 0,
                     quantity: 0
                 };
-                //actualisation des produits
-                sendHttpRequest(config.url + 'products', null, 'GET').then(function (data) {
-                    $scope.products = data;
-                });
             }, function () {//errorCallback
                 $scope.error = true;
                 $scope.message = "failure : n'existe-t-il pas deja dans la base ?";
