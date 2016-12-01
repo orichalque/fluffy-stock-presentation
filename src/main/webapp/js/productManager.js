@@ -53,12 +53,12 @@
         $scope.products = [{nom_product: "Loading..."}];
 
         $scope.types = ['MINERAL', 'DIVERS', 'BOIS', 'METAL',
-            "alimentaire",
-            "hygiene",
-            "liquide",
-            "epicerie",
-            "frais",
-            "bazar"
+            "ALIMENTAIRE",
+            "HYGIENE",
+            "LIQUIDE",
+            "EPICERIE",
+            "FRAIS",
+            "BAZAR"
         ];
 
         $scope.numberByPage = [10, 20, 30, 40];
