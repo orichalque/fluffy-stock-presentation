@@ -1,0 +1,15 @@
+
+com.alma.group8.api.exceptions
+com.alma.group8.api.interfaces
+com.alma.group8.application.configuration
+com.alma.group8.application.controller
+com.alma.group8.application.handlers
+com.alma.group8.application.util
+com.alma.group8.domain.exceptions
+com.alma.group8.domain.model
+com.alma.group8.domain.service
+com.alma.group8.infrastructure.configuration
+com.alma.group8.infrastructure.factories
+com.alma.group8.infrastructure.repository
+com.alma.group8.infrastructure.util
+com.cdyne.ws
